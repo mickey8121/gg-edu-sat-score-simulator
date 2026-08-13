@@ -1,0 +1,18 @@
+{
+  "extraKnownMarketplaces": {
+    "mickey-kit": {
+      "source": { "source": "github", "repo": "mickey8121/claude-kit" }
+    }
+  },
+  "enabledPlugins": {
+    "core@mickey-kit": true,
+    "web-next@mickey-kit": true
+  },
+  "permissions": {
+    "deny": [
+      "Read(./.env*)",
+      "Read(//Users/*/.config/**)",
+      "Read(./.git/config)"
+    ]
+  }
+}
