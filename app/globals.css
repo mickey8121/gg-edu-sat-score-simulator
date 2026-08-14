@@ -1,26 +1,273 @@
 @import "tailwindcss";
 
+/* Single light theme. `dark:` is repointed at a data attribute so a stray
+   dark: class can never fire from the visitor's OS setting. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme static {
+  /* Tailwind defaults that render off-brand. Cleared, then redefined. */
+  --color-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --font-serif: initial;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-brand: #009cdc;
+  --color-brand-deep: #008ac4;
+  --color-brand-50: #e8f4fd;
+  --color-brand-100: #daeefb;
+  --color-brand-200: #bfe6f8;
+  --color-hero-from: #38bdf8;
+  --color-hero-to: #2563eb;
+
+  --color-ink: #0f172a;
+  --color-copy: #334155;
+  --color-muted: #64748b;
+
+  --color-canvas: #f8fafc;
+  --color-card: #ffffff;
+  --color-line: #e2e8f0;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  /* Tailwind v3 hexes. v4 ships an oklch ramp at higher chroma that resolves
+     to different colours (slate-700 #314158, not #334155). */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
+
+  --color-ok: #22c55e;
+  --color-ok-ink: #15803d;
+  --color-warn: #f59e0b;
+  --color-warn-ink: #b45309;
+  --color-err: #ef4444;
+  --color-err-ink: #dc2626;
+  --color-err-surface: #fef2f2;
+  --color-err-line: #fecaca;
+  --color-star: #fbbf24;
+
+  /* Five monotonic steps. Pills use rounded-full. */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+
+  --shadow-soft: 0 10px 26px rgb(2 6 23 / 0.09);
+  --shadow-card:
+    0 1px 2px -1px rgb(8 47 73 / 0.1), 0 4px 9px -5px rgb(8 47 73 / 0.16),
+    0 12px 22px -12px rgb(8 47 73 / 0.28);
+  --shadow-lift: 0 16px 40px rgb(2 6 23 / 0.12);
+  --shadow-brand: 0 8px 20px -8px rgb(0 156 220 / 0.6);
+  --shadow-brand-lg: 0 12px 26px -8px rgb(0 156 220 / 0.7);
+
+  /* Bare `ring` now reproduces the kit's --ring exactly. */
+  --default-ring-width: 3px;
+  --default-ring-color: rgb(0 156 220 / 0.15);
+
+  /* The kit omits the timing function everywhere but the button, so it rides
+     the CSS initial value. Tailwind would otherwise write its own curve. */
+  --default-transition-duration: 200ms;
+  --default-transition-timing-function: ease;
+
+  --text-display: 2.5rem;
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.02em;
+  --text-display--font-weight: 800;
+
+  --text-display-compact: 1.9375rem;
+  --text-display-compact--line-height: 1.08;
+  --text-display-compact--letter-spacing: -0.02em;
+  --text-display-compact--font-weight: 800;
+
+  --text-title: 1.625rem;
+  --text-title--line-height: 1.25;
+  --text-title--letter-spacing: -0.015em;
+  --text-title--font-weight: 800;
+
+  --text-stat: 1.875rem;
+  --text-stat--line-height: 1.2;
+  --text-stat--letter-spacing: -0.02em;
+  --text-stat--font-weight: 800;
+
+  --text-lead: 1.125rem;
+  --text-lead--line-height: 1.6;
+  --text-lead--font-weight: 400;
+
+  --text-card-title: 1.0625rem;
+  --text-card-title--line-height: 1.35;
+  --text-card-title--font-weight: 800;
+
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-body--font-weight: 400;
+
+  --text-field: 0.9375rem;
+  --text-field--line-height: 1.4;
+  --text-field--font-weight: 400;
+
+  --text-ui: 0.90625rem;
+  --text-ui--line-height: 1;
+  --text-ui--font-weight: 700;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.6;
+
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.6;
+
+  --text-badge: 0.78125rem;
+  --text-badge--line-height: 1.6;
+  --text-badge--font-weight: 700;
+
+  --text-eyebrow: 0.78125rem;
+  --text-eyebrow--line-height: 1.6;
+  --text-eyebrow--letter-spacing: 0.14em;
+  --text-eyebrow--font-weight: 800;
+
+  --text-sub: 0.71875rem;
+  --text-sub--line-height: 1.6;
+  --text-sub--letter-spacing: 0.09em;
+  --text-sub--font-weight: 800;
+
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1.6;
+
+  --container-page: 65rem;
+}
+
+/* No --gradient-* namespace exists in v4, so these stay plain custom
+   properties and reach markup through the @utility rules below. The literal
+   gradient interpolates in sRGB; Tailwind's bg-linear-* would use oklab. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --gradient-brand: linear-gradient(
+    135deg,
+    var(--color-brand) 0%,
+    var(--color-brand-deep) 100%
+  );
+  --gradient-hero: linear-gradient(
+    135deg,
+    var(--color-hero-from) 0%,
+    var(--color-brand) 55%,
+    var(--color-hero-to) 100%
+  );
+  --gradient-canvas:
+    radial-gradient(
+      1200px 600px at 100% -10%,
+      rgb(0 156 220 / 0.06),
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 500px at -10% 10%,
+      rgb(37 99 235 / 0.05),
+      transparent 55%
+    );
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@utility gradient-brand {
+  background-image: var(--gradient-brand);
 }
 
-@media (prefers-color-scheme: dark) {
+@utility gradient-hero {
+  background-image: var(--gradient-hero);
+}
+
+@utility text-gradient-hero {
+  background-image: var(--gradient-hero);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: only light;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    background-image: var(--gradient-canvas);
+    color: var(--color-copy);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-ink);
+    font-weight: 800;
+  }
+
+  a {
+    color: var(--color-brand-deep);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    color: var(--color-slate-700);
+    background-color: var(--color-slate-100);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-xs);
+    padding: 0.05em 0.38em;
+  }
+
+  ::placeholder {
+    color: var(--color-muted);
+  }
+
+  ::selection {
+    background-color: var(--color-brand-50);
+    color: var(--color-brand-deep);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
