@@ -143,8 +143,8 @@ Key algorithms:
 | 2 · Shell, tabs, provider, URL | `feat/shell-state` | ✅ |
 | 3 · Sandbox (base) | `feat/sandbox` | ✅ |
 | 4 · «Мой план» tab | `feat/plan` | ✅ |
-| 5 · Simulation | `feat/simulation` | ⬜ ← **we are here** |
-| 6 · A/B + sharing | `feat/compare-share` | ⬜ |
+| 5 · Simulation | `feat/simulation` | ✅ |
+| 6 · A/B + sharing | `feat/compare-share` | ⬜ ← **we are here** |
 | 7 · Polish | `feat/polish` | ⬜ |
 | 8 · Deploy + README | `feat/deploy` | ⬜ |
 
@@ -161,8 +161,14 @@ whose ceiling numbers are computed live via `scoreSection` rather than a
 static value) is on `main` (`c12a4b9`, PR #4). The plan tab (`TargetPicker`
 slider + preset pills, `BudgetCards` from `errorBudget()`, edge-case alerts
 for 1600/≤800/unreachable, and the CTA to the trial exam) is on `main`
-(`72af8e7`, PR #5). No real simulation UI yet — Step 5 replaces the
-simulation placeholder with the exam-walkthrough stepper.
+(`72af8e7`, PR #5). The simulation tab (the 0→7 exam-walkthrough stepper —
+intro, module steps, two routing-reveal animations, and a results screen —
+plus the `simStep`/`simDraft`/`simResult` reducer wiring and the handoff into
+the sandbox) is on `main` (`50136f3`, PR #6). This step also finished
+`priority-block.tsx`'s "has data" branch that Step 4 left as a stub, and
+fixed the plan tab to prefer live lab data over a stale frozen simulation
+result once the sandbox is touched. No A/B comparison or sharing yet — Step 6
+adds the frozen-scenario compare mode and the «Поделиться» URL copy.
 
 ## Risks (what bites at each step)
 
