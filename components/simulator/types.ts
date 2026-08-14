@@ -9,6 +9,8 @@ export type SectionInputMap = Record<SectionId, SectionInput>;
 export interface AppState {
   tab: TabId;
   lab: SectionInputMap;
+  // Session-only UX flag for SmartAlert's default hint; never URL-persisted.
+  labTouched: boolean;
   target: number;
 }
 
