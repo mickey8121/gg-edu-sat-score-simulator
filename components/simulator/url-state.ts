@@ -9,11 +9,19 @@ export const DEFAULT_LAB: SectionInputMap = {
   math: { m1Mistakes: 0, m2Mistakes: 0 },
 };
 
+export const DEFAULT_SIM_DRAFT: SectionInputMap = {
+  rw: { m1Mistakes: 0, m2Mistakes: 0 },
+  math: { m1Mistakes: 0, m2Mistakes: 0 },
+};
+
 export const DEFAULT_STATE: AppState = {
   tab: DEFAULT_TAB,
   lab: DEFAULT_LAB,
   labTouched: false,
   target: DEFAULT_TARGET,
+  simStep: 0,
+  simDraft: DEFAULT_SIM_DRAFT,
+  simResult: null,
 };
 
 const TAB_IDS: TabId[] = ["sim", "lab", "plan"];
@@ -54,6 +62,11 @@ export const parseSearch = (search: string): AppState => {
     // Always false on (re)hydrate — never read from the URL.
     labTouched: false,
     target: parseTarget(params.get("target")),
+    // The walkthrough is never URL-persisted — a refresh always restarts it,
+    // even if `?tab=sim` is in the URL.
+    simStep: 0,
+    simDraft: DEFAULT_SIM_DRAFT,
+    simResult: null,
   };
 };
 

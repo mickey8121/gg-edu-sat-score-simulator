@@ -31,9 +31,13 @@ const edgeAlert = (target: number, reachable: boolean): EdgeAlert | null => {
 };
 
 export const Plan = () => {
-  const { state, dispatch } = useSimulator();
+  const { state, dispatch, labResult, simResultTotal } = useSimulator();
   const budget = useMemo(() => errorBudget(state.target), [state.target]);
   const alert = edgeAlert(state.target, budget.reachable);
+  // labTouched wins even once a simulation has completed and simResult stays
+  // truthy — otherwise editing the sandbox after a transfer would keep
+  // showing the stale simulation-based recommendation instead of the live one.
+  const priorityResult = state.labTouched ? labResult : simResultTotal;
 
   return (
     <Panel className="mt-6">
@@ -44,7 +48,7 @@ export const Plan = () => {
           {alert.message}
         </Alert>
       )}
-      <PriorityBlock className="mt-6" active={state.labTouched} dispatch={dispatch} />
+      <PriorityBlock className="mt-6" result={priorityResult} dispatch={dispatch} />
       <ButtonLink
         href={TRIAL_EXAM_URL}
         target="_blank"
