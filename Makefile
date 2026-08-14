@@ -29,3 +29,4 @@ check:
 	pnpm exec next typegen
 	pnpm exec tsc --noEmit
 	node scripts/check-utilities.mjs
+	pnpm run check:engine
