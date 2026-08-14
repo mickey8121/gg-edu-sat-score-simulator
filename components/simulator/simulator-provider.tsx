@@ -18,6 +18,7 @@ export interface SimulatorContextValue {
   // simDraft === simResult once frozen, but reading the wrong one signals
   // the wrong intent to the next reader.
   simResultTotal: TotalResult | null;
+  frozenAResult: TotalResult | null;
 }
 
 export type SimulatorProviderProps = { children: React.ReactNode };
@@ -42,6 +43,7 @@ const reducer = (state: AppState, action: Action): AppState => {
       return {
         ...state,
         labTouched: true,
+        justTransferred: false, // any edit invalidates "this came straight from the sim"
         lab: { ...state.lab, [action.section]: { ...state.lab[action.section], [key]: value } },
       };
     }
@@ -65,8 +67,22 @@ const reducer = (state: AppState, action: Action): AppState => {
       // simResult can't be transferred until it exists — the CTA that fires
       // this is only rendered on the results screen, where it always does.
       return state.simResult
-        ? { ...state, lab: state.simResult, tab: "lab", labTouched: true }
+        ? {
+            ...state,
+            lab: state.simResult,
+            tab: "lab",
+            labTouched: true,
+            justTransferred: true,
+            frozenA: null, // a fresh transfer invalidates any stale A/B comparison
+          }
         : state;
+    case "FREEZE_COMPARE":
+      // Also backs CompareBar's "Поменять местами" — re-anchoring B as the
+      // new A is the same operation as first entering compare mode: snapshot
+      // the live scenario into frozenA.
+      return { ...state, frozenA: state.lab };
+    case "EXIT_COMPARE":
+      return { ...state, frozenA: null };
     default:
       return state;
   }
@@ -82,9 +98,13 @@ export const SimulatorProvider = ({ children }: SimulatorProviderProps) => {
     () => (state.simResult ? scoreTotal(state.simResult) : null),
     [state.simResult],
   );
+  const frozenAResult = useMemo(
+    () => (state.frozenA ? scoreTotal(state.frozenA) : null),
+    [state.frozenA],
+  );
   const value = useMemo(
-    () => ({ state, dispatch, labResult, simTotal, simResultTotal }),
-    [state, labResult, simTotal, simResultTotal],
+    () => ({ state, dispatch, labResult, simTotal, simResultTotal, frozenAResult }),
+    [state, labResult, simTotal, simResultTotal, frozenAResult],
   );
 
   return <SimulatorContext.Provider value={value}>{children}</SimulatorContext.Provider>;
