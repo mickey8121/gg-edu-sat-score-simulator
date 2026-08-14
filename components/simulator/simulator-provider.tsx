@@ -3,19 +3,32 @@
 import { createContext, useContext, useMemo, useReducer } from "react";
 
 import type { Action, AppState } from "@/components/simulator/types";
-import { DEFAULT_STATE } from "@/components/simulator/url-state";
+import { DEFAULT_SIM_DRAFT, DEFAULT_STATE } from "@/components/simulator/url-state";
 import { useUrlState } from "@/components/simulator/use-url-state";
-import { ENGINE_CONFIG, scoreTotal, type TotalResult } from "@/lib/engine";
+import { ENGINE_CONFIG, scoreTotal, type SectionId, type TotalResult } from "@/lib/engine";
 
 export interface SimulatorContextValue {
   state: AppState;
   dispatch: React.Dispatch<Action>;
   labResult: TotalResult;
+  // Live, ticks on every simDraft edit — drives in-walkthrough UI (M2 route,
+  // routing-reveal verdict). Not the same thing as simResultTotal below.
+  simTotal: TotalResult;
+  // Only recomputes on freeze/reset — drives the frozen results screen.
+  // simDraft === simResult once frozen, but reading the wrong one signals
+  // the wrong intent to the next reader.
+  simResultTotal: TotalResult | null;
 }
 
 export type SimulatorProviderProps = { children: React.ReactNode };
 
 const SimulatorContext = createContext<SimulatorContextValue | null>(null);
+
+const clampMistakes = (section: SectionId, module: "m1" | "m2", value: number): number => {
+  const cfg = ENGINE_CONFIG[section];
+  const max = module === "m1" ? cfg.m1Questions : cfg.m2Questions;
+  return Math.min(max, Math.max(0, value));
+};
 
 const reducer = (state: AppState, action: Action): AppState => {
   switch (action.type) {
@@ -24,10 +37,8 @@ const reducer = (state: AppState, action: Action): AppState => {
     case "SET_TAB":
       return { ...state, tab: action.tab };
     case "SET_MISTAKES": {
-      const cfg = ENGINE_CONFIG[action.section];
-      const max = action.module === "m1" ? cfg.m1Questions : cfg.m2Questions;
+      const value = clampMistakes(action.section, action.module, action.value);
       const key = action.module === "m1" ? "m1Mistakes" : "m2Mistakes";
-      const value = Math.min(max, Math.max(0, action.value));
       return {
         ...state,
         labTouched: true,
@@ -36,6 +47,26 @@ const reducer = (state: AppState, action: Action): AppState => {
     }
     case "SET_TARGET":
       return { ...state, target: Math.min(1600, Math.max(400, Math.round(action.value / 10) * 10)) };
+    case "ADVANCE_SIM": {
+      const simStep = Math.min(7, state.simStep + 1);
+      return { ...state, simStep, simResult: simStep === 7 ? state.simDraft : state.simResult };
+    }
+    case "SET_SIM_MISTAKES": {
+      const value = clampMistakes(action.section, action.module, action.value);
+      const key = action.module === "m1" ? "m1Mistakes" : "m2Mistakes";
+      return {
+        ...state,
+        simDraft: { ...state.simDraft, [action.section]: { ...state.simDraft[action.section], [key]: value } },
+      };
+    }
+    case "RESET_SIM":
+      return { ...state, simStep: 0, simDraft: DEFAULT_SIM_DRAFT, simResult: null };
+    case "TRANSFER_SIM_TO_LAB":
+      // simResult can't be transferred until it exists — the CTA that fires
+      // this is only rendered on the results screen, where it always does.
+      return state.simResult
+        ? { ...state, lab: state.simResult, tab: "lab", labTouched: true }
+        : state;
     default:
       return state;
   }
@@ -46,7 +77,15 @@ export const SimulatorProvider = ({ children }: SimulatorProviderProps) => {
   useUrlState(state, dispatch);
 
   const labResult = useMemo(() => scoreTotal(state.lab), [state.lab]);
-  const value = useMemo(() => ({ state, dispatch, labResult }), [state, labResult]);
+  const simTotal = useMemo(() => scoreTotal(state.simDraft), [state.simDraft]);
+  const simResultTotal = useMemo(
+    () => (state.simResult ? scoreTotal(state.simResult) : null),
+    [state.simResult],
+  );
+  const value = useMemo(
+    () => ({ state, dispatch, labResult, simTotal, simResultTotal }),
+    [state, labResult, simTotal, simResultTotal],
+  );
 
   return <SimulatorContext.Provider value={value}>{children}</SimulatorContext.Provider>;
 };
