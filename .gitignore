@@ -42,5 +42,6 @@ next-env.d.ts
 
 # claude
 /.claude/*
+!/.claude/plans/
 !/.claude/rules/
 !/.claude/settings.json
