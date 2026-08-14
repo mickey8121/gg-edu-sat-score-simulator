@@ -45,6 +45,7 @@ import { Input, Select, Textarea } from "@/components/ui/input";
 import { Cols, Row, Stack } from "@/components/ui/layout-primitives";
 import { Panel } from "@/components/ui/panel";
 import { Progress } from "@/components/ui/progress";
+import { RangeSlider } from "@/components/ui/range-slider";
 import { SearchInput } from "@/components/ui/search-input";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { SegmentedTabs, type SegmentedTabsItem } from "@/components/ui/segmented-tabs";
@@ -77,6 +78,7 @@ const NAV = [
   { href: "#cards", label: "Cards" },
   { href: "#feedback", label: "States" },
   { href: "#tabs", label: "Segmented tabs" },
+  { href: "#sliders", label: "Range sliders" },
 ];
 
 const BRAND = [
@@ -512,6 +514,26 @@ const DesignSystemPage = () => {
         <Panel>
           <SubLabel>Default</SubLabel>
           <SegmentedTabs aria-label="Demo tabs" items={TAB_SPECIMEN_ITEMS} />
+        </Panel>
+      </Section>
+
+      <Section id="sliders">
+        <SectionHeading
+          num="11"
+          title="Range sliders"
+          description="Mistake sliders for the sandbox. Brand fill tracks the value; Module 1 sliders carry a routing-threshold tick."
+        />
+        <Panel>
+          <SubLabel>Plain</SubLabel>
+          <RangeSlider id="ds-slider-plain" min={0} max={27} defaultValue={5} />
+          <SubLabel>With threshold marker</SubLabel>
+          <RangeSlider
+            id="ds-slider-marker"
+            min={0}
+            max={27}
+            defaultValue={9}
+            marker={{ value: 9.5, label: "порог сложного модуля" }}
+          />
         </Panel>
       </Section>
 

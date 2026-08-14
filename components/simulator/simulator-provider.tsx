@@ -30,6 +30,7 @@ const reducer = (state: AppState, action: Action): AppState => {
       const value = Math.min(max, Math.max(0, action.value));
       return {
         ...state,
+        labTouched: true,
         lab: { ...state.lab, [action.section]: { ...state.lab[action.section], [key]: value } },
       };
     }
