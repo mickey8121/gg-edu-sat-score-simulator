@@ -142,8 +142,8 @@ Key algorithms:
 | 1 · Engine + check-engine | `feat/engine` | ✅ |
 | 2 · Shell, tabs, provider, URL | `feat/shell-state` | ✅ |
 | 3 · Sandbox (base) | `feat/sandbox` | ✅ |
-| 4 · «Мой план» tab | `feat/plan` | ⬜ ← **we are here** |
-| 5 · Simulation | `feat/simulation` | ⬜ |
+| 4 · «Мой план» tab | `feat/plan` | ✅ |
+| 5 · Simulation | `feat/simulation` | ⬜ ← **we are here** |
 | 6 · A/B + sharing | `feat/compare-share` | ⬜ |
 | 7 · Polish | `feat/polish` | ⬜ |
 | 8 · Deploy + README | `feat/deploy` | ⬜ |
@@ -158,9 +158,11 @@ tabindex, placeholder tab panels wired to `scoreTotal`) is on `main`
 (`603657b`, PR #3). The sandbox (`RangeSlider` primitive, per-section mistake
 sliders, the live metrics panel with route badges, and contextual alerts
 whose ceiling numbers are computed live via `scoreSection` rather than a
-static value) is on `main` (`c12a4b9`, PR #4). No real plan/simulation UI
-yet — Step 4 replaces the «Мой план» placeholder with the target picker and
-error budget.
+static value) is on `main` (`c12a4b9`, PR #4). The plan tab (`TargetPicker`
+slider + preset pills, `BudgetCards` from `errorBudget()`, edge-case alerts
+for 1600/≤800/unreachable, and the CTA to the trial exam) is on `main`
+(`72af8e7`, PR #5). No real simulation UI yet — Step 5 replaces the
+simulation placeholder with the exam-walkthrough stepper.
 
 ## Risks (what bites at each step)
 
