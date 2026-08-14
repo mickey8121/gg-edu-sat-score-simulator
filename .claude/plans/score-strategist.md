@@ -144,8 +144,8 @@ Key algorithms:
 | 3 · Sandbox (base) | `feat/sandbox` | ✅ |
 | 4 · «Мой план» tab | `feat/plan` | ✅ |
 | 5 · Simulation | `feat/simulation` | ✅ |
-| 6 · A/B + sharing | `feat/compare-share` | ⬜ ← **we are here** |
-| 7 · Polish | `feat/polish` | ⬜ |
+| 6 · A/B + sharing | `feat/compare-share` | ✅ |
+| 7 · Polish | `feat/polish` | ⬜ ← **we are here** |
 | 8 · Deploy + README | `feat/deploy` | ⬜ |
 
 Done so far: the kit (`components/ui`, `components/layout`, tokens, the
@@ -167,8 +167,14 @@ plus the `simStep`/`simDraft`/`simResult` reducer wiring and the handoff into
 the sandbox) is on `main` (`50136f3`, PR #6). This step also finished
 `priority-block.tsx`'s "has data" branch that Step 4 left as a stub, and
 fixed the plan tab to prefer live lab data over a stale frozen simulation
-result once the sandbox is touched. No A/B comparison or sharing yet — Step 6
-adds the frozen-scenario compare mode and the «Поделиться» URL copy.
+result once the sandbox is touched. The A/B compare mode (freeze the sandbox
+as scenario A via `FREEZE_COMPARE`, live `DeltaBadge`s on scenario B, swap
+and exit controls, the `a=` URL param with silent fallback on malformed
+values) and URL sharing (`flushUrl` flush-then-copy, the "Ссылка скопирована"
+confirmation, the clipboard-denied readonly-input fallback, and the
+transfer-from-simulation alert) are on `main` (`1130747`, PR #7). No polish
+pass yet — Step 7 audits the UI against `/design-system`, does the copy and
+mobile/a11y passes, and runs a local `pnpm build`.
 
 ## Risks (what bites at each step)
 
