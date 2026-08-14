@@ -8,8 +8,10 @@ import {
   Clock,
   Palette,
   PencilLine,
+  Play,
   Plus,
   Search,
+  SlidersHorizontal,
   Star,
   Target,
   Timer,
@@ -45,6 +47,7 @@ import { Panel } from "@/components/ui/panel";
 import { Progress } from "@/components/ui/progress";
 import { SearchInput } from "@/components/ui/search-input";
 import { SectionHeading } from "@/components/ui/section-heading";
+import { SegmentedTabs, type SegmentedTabsItem } from "@/components/ui/segmented-tabs";
 import { StatCard, StatGrid } from "@/components/ui/stat-card";
 import { GradientText, SubLabel, TextLink } from "@/components/ui/typography";
 
@@ -73,6 +76,7 @@ const NAV = [
   { href: "#icons", label: "Icons" },
   { href: "#cards", label: "Cards" },
   { href: "#feedback", label: "States" },
+  { href: "#tabs", label: "Segmented tabs" },
 ];
 
 const BRAND = [
@@ -117,6 +121,18 @@ const SHADOWS = [
   { name: "card", sub: "cards", className: "shadow-card" },
   { name: "lift", sub: "hover", className: "shadow-lift" },
   { name: "brand", sub: "primary button", className: "shadow-brand" },
+];
+
+const TAB_SPECIMEN_ITEMS: SegmentedTabsItem[] = [
+  { value: "sim", label: "Simulation", icon: <Play aria-hidden />, selected: false, tabIndex: -1 },
+  {
+    value: "lab",
+    label: "Sandbox",
+    icon: <SlidersHorizontal aria-hidden />,
+    selected: true,
+    tabIndex: 0,
+  },
+  { value: "plan", label: "Plan", icon: <Target aria-hidden />, selected: false, tabIndex: -1 },
 ];
 
 const ICONS = [
@@ -484,6 +500,18 @@ const DesignSystemPage = () => {
               </EmptyState>
             </div>
           </Cols>
+        </Panel>
+      </Section>
+
+      <Section id="tabs">
+        <SectionHeading
+          num="10"
+          title="Segmented tabs"
+          description="Roving-tabindex tab bar. Keyboard behaviour lives in the composing component, not here — this is a static specimen."
+        />
+        <Panel>
+          <SubLabel>Default</SubLabel>
+          <SegmentedTabs aria-label="Demo tabs" items={TAB_SPECIMEN_ITEMS} />
         </Panel>
       </Section>
 

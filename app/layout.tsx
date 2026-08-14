@@ -11,16 +11,16 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "SAT Portal — Global Generation",
+    default: "Стратег балла — SAT Portal",
     template: "%s — SAT Portal",
   },
   description:
-    "SAT score simulator: goal tracker, timing trainer and prep analytics.",
+    "Симулятор балла Digital SAT: пойми, как ответы превращаются в балл, и сколько ошибок можно себе позволить.",
 };
 
 const RootLayout = ({ children }: LayoutProps<"/">) => {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
+    <html lang="ru" className={`${inter.variable} h-full`}>
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
   );
