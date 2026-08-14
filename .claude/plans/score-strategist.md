@@ -141,8 +141,8 @@ Key algorithms:
 | 0 · Design system on main + plan in repo | `feat/design-system` | ✅ |
 | 1 · Engine + check-engine | `feat/engine` | ✅ |
 | 2 · Shell, tabs, provider, URL | `feat/shell-state` | ✅ |
-| 3 · Sandbox (base) | `feat/sandbox` | ⬜ ← **we are here** |
-| 4 · «Мой план» tab | `feat/plan` | ⬜ |
+| 3 · Sandbox (base) | `feat/sandbox` | ✅ |
+| 4 · «Мой план» tab | `feat/plan` | ⬜ ← **we are here** |
 | 5 · Simulation | `feat/simulation` | ⬜ |
 | 6 · A/B + sharing | `feat/compare-share` | ⬜ |
 | 7 · Polish | `feat/polish` | ⬜ |
@@ -155,8 +155,12 @@ Done so far: the kit (`components/ui`, `components/layout`, tokens, the
 `main` (`983c8b0`, PR #2). The shell (`SegmentedTabs` primitive,
 `SimulatorProvider` with `useReducer` + debounced URL sync, `StepTabs` roving
 tabindex, placeholder tab panels wired to `scoreTotal`) is on `main`
-(`603657b`, PR #3). No real sandbox/plan/simulation UI yet — Step 3 replaces
-the sandbox placeholder with the real sliders.
+(`603657b`, PR #3). The sandbox (`RangeSlider` primitive, per-section mistake
+sliders, the live metrics panel with route badges, and contextual alerts
+whose ceiling numbers are computed live via `scoreSection` rather than a
+static value) is on `main` (`c12a4b9`, PR #4). No real plan/simulation UI
+yet — Step 4 replaces the «Мой план» placeholder with the target picker and
+error budget.
 
 ## Risks (what bites at each step)
 
