@@ -15,6 +15,10 @@ export interface AppState {
   simStep: number; // 0..7, never URL-persisted — a refresh restarts the walkthrough
   simDraft: SectionInputMap; // in-progress answers, mistakes-framed like `lab`
   simResult: SectionInputMap | null; // frozen copy of simDraft, set once simStep reaches 7
+  frozenA: SectionInputMap | null; // snapshot of `lab` frozen for A/B compare; null = not comparing
+  // Session-only UX flag for the "Перенесли твой результат" alert; cleared on
+  // the next SET_MISTAKES, never URL-persisted.
+  justTransferred: boolean;
 }
 
 export type Action =
@@ -25,4 +29,6 @@ export type Action =
   | { type: "ADVANCE_SIM" }
   | { type: "SET_SIM_MISTAKES"; section: SectionId; module: "m1" | "m2"; value: number }
   | { type: "RESET_SIM" }
-  | { type: "TRANSFER_SIM_TO_LAB" };
+  | { type: "TRANSFER_SIM_TO_LAB" }
+  | { type: "FREEZE_COMPARE" }
+  | { type: "EXIT_COMPARE" };
