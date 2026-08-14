@@ -44,7 +44,14 @@ export const SimFlow = () => {
   }, [state.simStep, isReveal]);
 
   return (
-    <Panel ref={panelRef} tabIndex={-1} className="mt-6 outline-none">
+    <Panel
+      ref={panelRef}
+      id="panel-sim"
+      role="tabpanel"
+      aria-labelledby="tab-sim"
+      tabIndex={-1}
+      className="mt-6 outline-none"
+    >
       {state.simStep > 0 && <SimProgress currentStep={state.simStep} className="mb-6" />}
       {renderStep(state.simStep)}
     </Panel>

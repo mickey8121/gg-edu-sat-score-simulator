@@ -14,7 +14,7 @@ export const Lab = () => {
   const { frozenA } = state;
 
   return (
-    <Panel className="mt-6">
+    <Panel id="panel-lab" role="tabpanel" aria-labelledby="tab-lab" className="mt-6">
       <Row className="justify-between">
         <CompareBar isComparing={frozenAResult !== null} dispatch={dispatch} />
         <ShareButton state={state} />

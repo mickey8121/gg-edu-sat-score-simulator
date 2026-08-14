@@ -40,7 +40,7 @@ export const Plan = () => {
   const priorityResult = state.labTouched ? labResult : simResultTotal;
 
   return (
-    <Panel className="mt-6">
+    <Panel id="panel-plan" role="tabpanel" aria-labelledby="tab-plan" className="mt-6">
       <TargetPicker target={state.target} dispatch={dispatch} />
       {budget.reachable && <BudgetCards className="mt-6" budget={budget} />}
       {alert && (

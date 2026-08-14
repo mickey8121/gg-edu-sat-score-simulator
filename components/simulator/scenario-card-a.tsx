@@ -1,4 +1,5 @@
 import { LivePanel } from "@/components/simulator/live-panel";
+import { mistakesWord } from "@/components/simulator/section-sliders";
 import type { SectionInputMap } from "@/components/simulator/types";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Panel } from "@/components/ui/panel";
@@ -17,11 +18,13 @@ export const ScenarioCardA = ({ className, input, result, ...props }: ScenarioCa
       <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-caption text-muted">
         <dt className="font-bold text-slate-600">R&W</dt>
         <dd>
-          {input.rw.m1Mistakes} ошибок в M1, {input.rw.m2Mistakes} в M2
+          {input.rw.m1Mistakes} {mistakesWord(input.rw.m1Mistakes)} в M1, {input.rw.m2Mistakes}{" "}
+          {mistakesWord(input.rw.m2Mistakes)} в M2
         </dd>
         <dt className="font-bold text-slate-600">Math</dt>
         <dd>
-          {input.math.m1Mistakes} ошибок в M1, {input.math.m2Mistakes} в M2
+          {input.math.m1Mistakes} {mistakesWord(input.math.m1Mistakes)} в M1, {input.math.m2Mistakes}{" "}
+          {mistakesWord(input.math.m2Mistakes)} в M2
         </dd>
       </dl>
       <LivePanel className="mt-4" result={result} />
