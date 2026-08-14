@@ -140,8 +140,8 @@ Key algorithms:
 |---|---|---|
 | 0 · Design system on main + plan in repo | `feat/design-system` | ✅ |
 | 1 · Engine + check-engine | `feat/engine` | ✅ |
-| 2 · Shell, tabs, provider, URL | `feat/shell-state` | ⬜ ← **we are here** |
-| 3 · Sandbox (base) | `feat/sandbox` | ⬜ |
+| 2 · Shell, tabs, provider, URL | `feat/shell-state` | ✅ |
+| 3 · Sandbox (base) | `feat/sandbox` | ⬜ ← **we are here** |
 | 4 · «Мой план» tab | `feat/plan` | ⬜ |
 | 5 · Simulation | `feat/simulation` | ⬜ |
 | 6 · A/B + sharing | `feat/compare-share` | ⬜ |
@@ -152,7 +152,11 @@ Done so far: the kit (`components/ui`, `components/layout`, tokens, the
 `/design-system` showcase, `check-utilities`, the Makefile contract) is on
 `main` (`f9ede6a`, PR #1). The scoring engine (`lib/engine`,
 `scripts/check-engine.ts`, `check:engine` wired into `make check`) is on
-`main` (`983c8b0`, PR #2). No UI consuming it yet.
+`main` (`983c8b0`, PR #2). The shell (`SegmentedTabs` primitive,
+`SimulatorProvider` with `useReducer` + debounced URL sync, `StepTabs` roving
+tabindex, placeholder tab panels wired to `scoreTotal`) is on `main`
+(`603657b`, PR #3). No real sandbox/plan/simulation UI yet — Step 3 replaces
+the sandbox placeholder with the real sliders.
 
 ## Risks (what bites at each step)
 
