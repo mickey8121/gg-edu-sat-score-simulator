@@ -145,8 +145,8 @@ Key algorithms:
 | 4 · «Мой план» tab | `feat/plan` | ✅ |
 | 5 · Simulation | `feat/simulation` | ✅ |
 | 6 · A/B + sharing | `feat/compare-share` | ✅ |
-| 7 · Polish | `feat/polish` | ⬜ ← **we are here** |
-| 8 · Deploy + README | `feat/deploy` | ⬜ |
+| 7 · Polish | `feat/polish` | ✅ |
+| 8 · Deploy + README | `feat/deploy` | ⬜ ← **we are here** |
 
 Done so far: the kit (`components/ui`, `components/layout`, tokens, the
 `/design-system` showcase, `check-utilities`, the Makefile contract) is on
@@ -172,9 +172,16 @@ as scenario A via `FREEZE_COMPARE`, live `DeltaBadge`s on scenario B, swap
 and exit controls, the `a=` URL param with silent fallback on malformed
 values) and URL sharing (`flushUrl` flush-then-copy, the "Ссылка скопирована"
 confirmation, the clipboard-denied readonly-input fallback, and the
-transfer-from-simulation alert) are on `main` (`1130747`, PR #7). No polish
-pass yet — Step 7 audits the UI against `/design-system`, does the copy and
-mobile/a11y passes, and runs a local `pnpm build`.
+transfer-from-simulation alert) are on `main` (`1130747`, PR #7). The polish
+pass — audited against `/design-system` (tokens already conformant, no
+changes needed), copy checked verbatim against spec §7/§3 (clean except one
+already-documented deliberate deviation), a 390px walkthrough, and an
+accessibility pass — found and fixed three real issues: a dangling
+`aria-controls`/`role="tabpanel"` wiring gap between `StepTabs` and its three
+panels, wrong Russian pluralization ("1 ошибок") in the frozen A/B scenario
+card, and the `StepTabs` pill row overflowing the page horizontally at 390px
+(now scrolls within its own pill). `pnpm build` and `make check` are both
+green. Committed directly to `main` (`265dfe4`), no PR for this step.
 
 ## Risks (what bites at each step)
 
